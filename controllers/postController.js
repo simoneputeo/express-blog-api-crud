@@ -1,9 +1,18 @@
 const posts = require("../data/posts");
 
 function index(req, res) {
+  const { tag } = req.query;
+  let filteredPosts = posts;
+
+  if (tag) {
+    filteredPosts = posts.filter(post => 
+      post.tags && post.tags.includes(tag)
+    );
+  }
+
   res.json({
-    message: "Lettura di tutti i post",
-    posts,
+    message: tag ? `Posts filtrati per tag '${tag}'` : "Lettura di tutti i post",
+    posts: filteredPosts,
   });
 }
 
