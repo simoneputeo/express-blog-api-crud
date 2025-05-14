@@ -36,12 +36,13 @@ function update(req, res) {
 
 function destroy(req, res) {
   const id = req.params.id;
-  res.json({
-
-    message: "Eliminazione del post " + id,
-    posts,
-  });
+  const index = posts.findIndex(post => post.id === id);
+   if (index !== -1) {
+    posts.splice(index, 1);
+  }
   
+  console.log(posts); 
+  res.sendStatus(204); 
 };
 
 module.exports = { index, show, store, update, destroy}
