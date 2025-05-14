@@ -1,8 +1,6 @@
-const postController = require('../controllers/postController');
 const express = require('express');
+const postController = require('../controllers/postController');
 const router = express.Router();
-const posts = require('../data/posts');
-
 
 // Index
 router.get('/', postController.index);
@@ -18,3 +16,5 @@ router.put('/:id', postController.update);
 
 // Destroy
 router.delete('/:id', postController.destroy);
+
+module.exports = router;
