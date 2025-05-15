@@ -34,12 +34,43 @@ function show(req, res) {
 }
 
 function store(req, res) {
-  res.json("Creazione di un nuovo post");
+      console.log(req.body);
+  const newId = posts[posts.length - 1].id + 1;
+  const newPost = {
+    id: newId,
+    title: req.body.title,
+    image: req.body.image,
+    content: req.body.content,
+    tags: req.body.tags
+  }
+posts.push(newPost);
+console.log(posts);
+res.status(201);
+  res.json(newPost);
+
 }
 
 function update(req, res) {
-  const id = req.params.id;
-  res.json("Sostituzione del post " + id);
+// recuperiamo l'id dall' URL e trasformiamolo in numero
+const id = parseInt(req.params.id)
+// cerchiamo il post tramite id
+const post = posts.find(post => post.id === id);
+// Piccolo controllo
+if (!post) {
+res.status(404);
+return res.json({
+error: "Not Found",
+message: "Post non trovato"
+})
+}
+// Aggiorniamo IL POST
+post.title = req.body.title;
+post.image = req.body.image;
+post.tags = req.body.tags;
+// Controlliamo i post
+console.log(posts)
+// Restituiamo il post appena aggiornato
+res.json(post);
 }
 
 function destroy(req, res) {

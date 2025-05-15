@@ -6,6 +6,7 @@ const postRouter = require ("./routers/postRouter.js")
 
 app.use(express.static('public'));
 
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({message: 'Server del mio blog'})
