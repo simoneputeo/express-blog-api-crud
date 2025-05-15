@@ -34,21 +34,48 @@ function show(req, res) {
 }
 
 function store(req, res) {
-      console.log(req.body);
-  const newId = posts[posts.length - 1].id + 1;
+  const { title, image, content, tags } = req.body;
+
+  // Validazione avanzata
+  let errors = [];
+  
+  // Controllo titolo
+  if (!title || typeof title !== "string" || title.trim().length < 3) {
+    errors.push("Il titolo deve essere una stringa di almeno 3 caratteri");
+  }
+
+  // Controllo tags
+  if (!Array.isArray(tags) || tags.some(t => typeof t !== "string")) {
+    errors.push("I tags devono essere un array di stringhe");
+  }
+
+  }
+
+  if (errors.length > 0) {
+    return res.status(400).json({
+      error: "Richiesta non valida",
+      details: errors
+    });
+  }
+
+  // Generazione ID sicura
+  const newId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
+
   const newPost = {
     id: newId,
-    title: req.body.title,
-    image: req.body.image,
-    content: req.body.content,
-    tags: req.body.tags
-  }
-posts.push(newPost);
-console.log(posts);
-res.status(201);
-  res.json(newPost);
+    title: title.trim(),
+    image: image || null,
+    content: content || "",
+    tags: tags.map(t => t.toLowerCase())
+  };
 
-}
+  posts.push(newPost);
+  
+  return res.status(201).json({
+    message: "Post creato con successo",
+    data: newPost
+  });
+
 
 function update(req, res) {
 // recuperiamo l'id dall' URL e trasformiamolo in numero
