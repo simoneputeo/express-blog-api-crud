@@ -45,10 +45,8 @@ function store(req, res) {
   }
 
   // Controllo tags
-  if (!Array.isArray(tags) || tags.some(t => typeof t !== "string")) {
+  if (!tags || !Array.isArray(tags) || tags.some(t => typeof t !== "string")) {
     errors.push("I tags devono essere un array di stringhe");
-  }
-
   }
 
   if (errors.length > 0) {
@@ -75,6 +73,7 @@ function store(req, res) {
     message: "Post creato con successo",
     data: newPost
   });
+}
 
 
 function update(req, res) {
