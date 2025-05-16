@@ -10,9 +10,7 @@ app.use(express.static('public')); // middleware assets statici
 
 app.use(express.json());  // middleware body parser
 
-app.use(errorsHandler); // middleware error 500
 
-app.use(notFound); // middleware error 404
 
 
 app.get('/', (req, res) => {
@@ -27,3 +25,6 @@ app.listen(port, () => {
 })
 
 
+app.use(errorsHandler); // middleware error 500
+
+app.use(notFound); // middleware error 404
